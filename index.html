@@ -1,67 +1,101 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TripoSphere - Explore the World</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TripoSphere - Stays</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <header>
-        <h1>Welcome to TripoSphere</h1>
-        <p>Your adventure starts here.</p>
-    </header>
+  <header>
+    <h1>Welcome to TripoSphere</h1>
+    <p>Your adventure starts here.</p>
+  </header>
 
-    <nav>
-        <ul>
-            <li><a href="#stays">Stays</a></li>
-            <li><a href="#flights">Flights</a></li>
-            <li><a href="#hotels">Hotels</a></li>
-            <li><a href="#bus">Bus Tickets</a></li>
-            <li><a href="#taxi">Car Rental</a></li>
-            <li><a href="#fun">Attractions</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <ul>
+      <li><a href="#">Stays</a></li>
+      <li><a href="#">Flights</a></li>
+      <li><a href="#">Hotels</a></li>
+      <li><a href="#">Bus Tickets</a></li>
+      <li><a href="#">Car Rental</a></li>
+      <li><a href="#">Attractions</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
 
-    <section id="stays">
-        <h2>Find the Best Stays</h2>
-        <p>Comfortable and affordable stays for every traveler.</p>
-    </section>
+  <section id="stays">
+    <h2>Find the Best Stays</h2>
+    <label for="country">Choose a country:</label>
+    <select id="country" onchange="loadCities()">
+      <option value="">Select Country</option>
+      <option value="vietnam">Vietnam</option>
+      <option value="thailand">Thailand</option>
+    </select>
 
-    <section id="flights">
-        <h2>Book Your Flights</h2>
-        <p>Find the best flight deals for your next trip.</p>
-    </section>
+    <div id="citySelector" style="margin-top: 10px;"></div>
+    <div id="properties" style="margin-top: 20px;"></div>
+  </section>
 
-    <section id="hotels">
-        <h2>Hotel Booking & Return Dummy Ticket</h2>
-        <p>Reserve hotels and generate dummy tickets for visa applications.</p>
-    </section>
+  <script>
+    const data = {
+      vietnam: {
+        "Ho Chi Minh": [
+          { name: "Cozy Riverside Apartment", price: "$45/night", image: "https://i.imgur.com/Yy8Q75I.jpg" },
+          { name: "Saigon Central Homestay", price: "$30/night", image: "https://i.imgur.com/vKt4FxA.jpg" }
+        ],
+        "Hanoi": [
+          { name: "Old Quarter Suite", price: "$40/night", image: "https://i.imgur.com/CA2sF0B.jpg" }
+        ]
+      },
+      thailand: {
+        "Bangkok": [
+          { name: "Bangkok Sky View Condo", price: "$50/night", image: "https://i.imgur.com/V5yVVWg.jpg" }
+        ],
+        "Chiang Mai": [
+          { name: "Nature View Villa", price: "$35/night", image: "https://i.imgur.com/h9gqOXM.jpg" }
+        ]
+      }
+    };
 
-    <section id="bus">
-        <h2>Bus Tickets</h2>
-        <p>Book bus tickets for a smooth journey.</p>
-    </section>
+    function loadCities() {
+      const country = document.getElementById("country").value;
+      const citySelector = document.getElementById("citySelector");
+      const properties = document.getElementById("properties");
+      properties.innerHTML = "";
 
-    <section id="taxi">
-        <h2>Car Rentals</h2>
-        <p>Hire taxis and private cars for your convenience.</p>
-    </section>
+      if (country && data[country]) {
+        let cityOptions = `<label for="city">Choose a city:</label>
+          <select id="city" onchange="loadProperties('${country}')">
+          <option value="">Select City</option>`;
+        for (let city in data[country]) {
+          cityOptions += `<option value="${city}">${city}</option>`;
+        }
+        cityOptions += "</select>";
+        citySelector.innerHTML = cityOptions;
+      } else {
+        citySelector.innerHTML = "";
+      }
+    }
 
-    <section id="fun">
-        <h2>Explore Attractions & Fun Activities</h2>
-        <p>Discover exciting places and experiences.</p>
-    </section>
+    function loadProperties(country) {
+      const city = document.getElementById("city").value;
+      const properties = document.getElementById("properties");
+      properties.innerHTML = "";
 
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <p>Email: support@triposphere.com</p>
-        <p>Phone: +123 456 789</p>
-    </section>
-
-    <footer>
-        <p>&copy; 2024 TripoSphere | Your Travel Companion</p>
-    </footer>
+      if (city && data[country][city]) {
+        data[country][city].forEach(prop => {
+          properties.innerHTML += `
+            <div class="property-card">
+              <img src="${prop.image}" alt="${prop.name}" />
+              <h3>${prop.name}</h3>
+              <p>${prop.price}</p>
+              <button>Book Now</button>
+            </div>`;
+        });
+      }
+    }
+  </script>
 </body>
 </html>
