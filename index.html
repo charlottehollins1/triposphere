@@ -32,6 +32,8 @@
       <option value="">Select Country</option>
       <option value="vietnam">Vietnam</option>
       <option value="thailand">Thailand</option>
+      <option value="laos">Laos</option>
+      <option value="cambodia">Cambodia</option>
     </select>
 
     <div id="citySelector" style="margin-top: 10px;"></div>
@@ -41,21 +43,28 @@
   <script>
     const data = {
       vietnam: {
-        "Ho Chi Minh": [
-          { name: "Cozy Riverside Apartment", price: "$45/night", image: "https://i.imgur.com/Yy8Q75I.jpg" },
-          { name: "Saigon Central Homestay", price: "$30/night", image: "https://i.imgur.com/vKt4FxA.jpg" }
-        ],
-        "Hanoi": [
-          { name: "Old Quarter Suite", price: "$40/night", image: "https://i.imgur.com/CA2sF0B.jpg" }
-        ]
+        "Ho Chi Minh": [],
+        "Hanoi": [],
+        "Da Nang": [],
+        "Nha Trang": []
       },
       thailand: {
-        "Bangkok": [
-          { name: "Bangkok Sky View Condo", price: "$50/night", image: "https://i.imgur.com/V5yVVWg.jpg" }
-        ],
-        "Chiang Mai": [
-          { name: "Nature View Villa", price: "$35/night", image: "https://i.imgur.com/h9gqOXM.jpg" }
-        ]
+        "Bangkok": [],
+        "Chiang Mai": [],
+        "Phuket": [],
+        "Pattaya": []
+      },
+      laos: {
+        "Vientiane": [],
+        "Luang Prabang": [],
+        "Pakse": [],
+        "Savannakhet": []
+      },
+      cambodia: {
+        "Phnom Penh": [],
+        "Siem Reap": [],
+        "Sihanoukville": [],
+        "Battambang": []
       }
     };
 
@@ -84,7 +93,7 @@
       const properties = document.getElementById("properties");
       properties.innerHTML = "";
 
-      if (city && data[country][city]) {
+      if (city && data[country][city] && data[country][city].length > 0) {
         data[country][city].forEach(prop => {
           properties.innerHTML += `
             <div class="property-card">
@@ -94,6 +103,8 @@
               <button>Book Now</button>
             </div>`;
         });
+      } else {
+        properties.innerHTML = "<p>No properties listed yet for this city.</p>";
       }
     }
   </script>
