@@ -4,107 +4,97 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>TripoSphere - Stays</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>TripoSphere - Travel Agency</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <header>
     <h1>Welcome to TripoSphere</h1>
     <p>Your adventure starts here.</p>
+    <nav>
+      <a href="#stays">Stays</a>
+      <a href="#flights">Flights</a>
+      <a href="#dummy">Dummy Booking</a>
+    </nav>
   </header>
-
-  <nav>
-    <ul>
-      <li><a href="#">Stays</a></li>
-      <li><a href="#">Flights</a></li>
-      <li><a href="#">Hotels</a></li>
-      <li><a href="#">Bus Tickets</a></li>
-      <li><a href="#">Car Rental</a></li>
-      <li><a href="#">Attractions</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </nav>
 
   <section id="stays">
     <h2>Find the Best Stays</h2>
     <label for="country">Choose a country:</label>
-    <select id="country" onchange="loadCities()">
+    <select id="country" onchange="updateCities()">
       <option value="">Select Country</option>
-      <option value="vietnam">Vietnam</option>
-      <option value="thailand">Thailand</option>
-      <option value="laos">Laos</option>
-      <option value="cambodia">Cambodia</option>
+      <option value="Vietnam">Vietnam</option>
+      <option value="Thailand">Thailand</option>
+      <option value="Cambodia">Cambodia</option>
+      <option value="Laos">Laos</option>
     </select>
 
-    <div id="citySelector" style="margin-top: 10px;"></div>
-    <div id="properties" style="margin-top: 20px;"></div>
+    <label for="city">Choose a city:</label>
+    <select id="city">
+      <option value="">Select City</option>
+    </select>
+
+    <div class="gallery">
+      <img src="images/vietnam.png" alt="Vietnam">
+      <img src="images/thailand.png" alt="Thailand">
+      <img src="images/cambodia.png" alt="Cambodia">
+      <img src="images/laos.png" alt="Laos">
+    </div>
   </section>
 
+  <section id="flights">
+    <h2>Book Your Flights</h2>
+    <form>
+      <label>From:</label>
+      <input type="text" placeholder="Departure Airport" required>
+      <label>To:</label>
+      <input type="text" placeholder="Arrival Airport" required>
+      <button type="submit">Search Flights</button>
+    </form>
+  </section>
+
+  <section id="dummy">
+    <h2>Dummy Tickets & Hotel Booking</h2>
+    <form>
+      <label>Your Name:</label>
+      <input type="text" required>
+      <label>Email:</label>
+      <input type="email" required>
+      <label>Service Required:</label>
+      <select>
+        <option>Return Ticket</option>
+        <option>Hotel Booking</option>
+      </select>
+      <label>Additional Notes:</label>
+      <textarea placeholder="Tell us what you need..."></textarea>
+      <button type="submit">Confirm Order</button>
+      <button type="button">Proceed to Payment</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>© 2025 TripoSphere. All rights reserved.</p>
+  </footer>
+
   <script>
-    const data = {
-      vietnam: {
-        "Ho Chi Minh": [],
-        "Hanoi": [],
-        "Da Nang": [],
-        "Nha Trang": []
-      },
-      thailand: {
-        "Bangkok": [],
-        "Chiang Mai": [],
-        "Phuket": [],
-        "Pattaya": []
-      },
-      laos: {
-        "Vientiane": [],
-        "Luang Prabang": [],
-        "Pakse": [],
-        "Savannakhet": []
-      },
-      cambodia: {
-        "Phnom Penh": [],
-        "Siem Reap": [],
-        "Sihanoukville": [],
-        "Battambang": []
-      }
+    const cities = {
+      Vietnam: ["Hanoi", "Ho Chi Minh", "Da Nang"],
+      Thailand: ["Bangkok", "Phuket", "Chiang Mai"],
+      Cambodia: ["Phnom Penh", "Siem Reap", "Sihanoukville"],
+      Laos: ["Vientiane", "Luang Prabang", "Pakse"]
     };
 
-    function loadCities() {
-      const country = document.getElementById("country").value;
-      const citySelector = document.getElementById("citySelector");
-      const properties = document.getElementById("properties");
-      properties.innerHTML = "";
-
-      if (country && data[country]) {
-        let cityOptions = `<label for="city">Choose a city:</label>
-          <select id="city" onchange="loadProperties('${country}')">
-          <option value="">Select City</option>`;
-        for (let city in data[country]) {
-          cityOptions += `<option value="${city}">${city}</option>`;
-        }
-        cityOptions += "</select>";
-        citySelector.innerHTML = cityOptions;
-      } else {
-        citySelector.innerHTML = "";
-      }
-    }
-
-    function loadProperties(country) {
-      const city = document.getElementById("city").value;
-      const properties = document.getElementById("properties");
-      properties.innerHTML = "";
-
-      if (city && data[country][city] && data[country][city].length > 0) {
-        data[country][city].forEach(prop => {
-          properties.innerHTML += `
-            <div class="property-card">
-              <img src="${prop.image}" alt="${prop.name}" />
-              <h3>${prop.name}</h3>
-              <p>${prop.price}</p>
-              <button>Book Now</button>
-            </div>`;
+    function updateCities() {
+      const country = document.getElementById('country').value;
+      const citySelect = document.getElementById('city');
+      citySelect.innerHTML = '';
+      if (cities[country]) {
+        cities[country].forEach(city => {
+          const option = document.createElement('option');
+          option.value = city;
+          option.textContent = city;
+          citySelect.appendChild(option);
         });
-      } else {
-        properties.innerHTML = "<p>No properties listed yet for this city.</p>";
       }
     }
   </script>
